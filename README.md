@@ -25,7 +25,7 @@
 go install github.com/yourusername/tf-select@latest
 
 ### Manual Build
-git clone https://github.com/yourusername/tf-select.git
+git clone https://github.com/Mayank12agrawal/tf-select.git
 cd tf-select
 go build -o tf-select
 
