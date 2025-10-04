@@ -76,6 +76,7 @@ This command saves the index-to-resource mapping in `.tf-select-cache.json`:
 Applies the selected Terraform or Terragrunt resources based on the saved indexes.
 
 **Usage Examples:**
+```
 
 - Apply specific resources by index:
 
@@ -88,8 +89,10 @@ tf-select apply 1,3
 - Apply *all* resources listed in the plan:
 
 tf-select apply
+```
 
 **Sample Output:**
+```
 
 🚀 Running terraform: apply -target=aws_instance.web_server -target=aws_s3_bucket.logs
 
@@ -106,14 +109,16 @@ Do you want to perform these actions? Enter a value: yes
 
 Apply complete! Resources: 1 added, 1 destroyed.
 ✅ Apply completed successfully.
-
+```
 
 If you specify an invalid index, you will see:
 
+```
 ⚠️ Index 9 not found
+```
 
+```
 ---
-
 ## 🔍 How It Works
 
 1. `tf-select plan`:
@@ -127,10 +132,10 @@ If you specify an invalid index, you will see:
    - Executes them, keeping standard input/output interactive.
 
 3. Automatically detects if you are using **Terraform** or **Terragrunt** by checking for a `terragrunt.hcl` file in the directory.
-
 ---
 
 ## 🧾 Example Workflow
+```
 
 Generate the plan and list resources
 tf-select plan
@@ -140,7 +145,7 @@ tf-select apply 1 3
 
 Apply all resources from the last plan
 tf-select apply
-
+```
 ---
 
 ## 📂 Generated Files
@@ -169,6 +174,7 @@ tf-select apply
 | `tf-select apply`   | Apply all resources      | `✅ Apply completed successfully.`   |
 
 ---
+```
 
 
 
