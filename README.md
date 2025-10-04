@@ -22,7 +22,7 @@
 
 ### Via Go
 
-go install github.com/yourusername/tf-select@latest
+go install github.com/Mayank12agrawal/tf-select@latest
 
 ### Manual Build
 git clone https://github.com/Mayank12agrawal/tf-select.git
