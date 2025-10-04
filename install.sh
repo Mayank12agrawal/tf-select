@@ -1,20 +1,31 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Version logic: positional argument > environment variable > default 'v1.0.0'
 VERSION="${1:-v1.0.0}"
 REPO="Mayank12agrawal/tf-select"
 BINARY="tf-select"
 
+# Detect OS and normalize architecture names
 OS=$(uname | tr '[:upper:]' '[:lower:]')
 ARCH=$(uname -m)
 
-if [[ "$ARCH" == "x86_64" ]]; then ARCH="amd64"; fi
-if [[ "$ARCH" == "arm64" || "$ARCH" == "aarch64" ]]; then ARCH="arm64"; fi
-if [[ "$ARCH" == "i386" ]]; then ARCH="386"; fi
+if [[ "$ARCH" == "x86_64" ]]; then 
+  ARCH="amd64"
+elif [[ "$ARCH" == "arm64" || "$ARCH" == "aarch64" ]]; then 
+  ARCH="arm64"
+elif [[ "$ARCH" == "i386" ]]; then
+  ARCH="386"
+else
+  echo "❌ Unsupported architecture: $ARCH"
+  exit 1
+fi
 
-# Notice the extra underscore after binary and before version tag
-TARBALL="${BINARY}_v${VERSION#v}_${OS}_${ARCH}.tar.gz"
+# Remove leading 'v' from version for the tarball name
+CLEAN_VERSION="${VERSION#v}"
 
+# Construct the tarball name matching your release assets
+TARBALL="${BINARY}_v${CLEAN_VERSION}_${OS}_${ARCH}.tar.gz"
 URL="https://github.com/${REPO}/releases/download/${VERSION}/${TARBALL}"
 
 echo "📥 Checking if asset $TARBALL exists at $URL..."
@@ -22,6 +33,7 @@ echo "📥 Checking if asset $TARBALL exists at $URL..."
 if ! curl -fsI "$URL" > /dev/null; then
   echo "❌ Release asset not found:"
   echo "   $URL"
+  echo "❓ Please verify the release exists and the asset is uploaded exactly with this name."
   exit 1
 fi
 

@@ -30,9 +30,18 @@ cd tf-select
 go build -o tf-select
 ```
 
-
 Make sure the binary is in your `$PATH` for easy execution.
 
+Using the install script (recommended)
+Run this one-liner to download and install the correct binary automatically for your system:
+```
+curl -fsSL https://raw.githubusercontent.com/Mayank12agrawal/tf-select/main/install.sh | bash
+```
+To install a specific version, run:
+```
+curl -fsSL https://raw.githubusercontent.com/Mayank12agrawal/tf-select/main/install.sh | bash -s -- v1.0.0
+
+```
 ---
 
 ## 🧩 Commands
@@ -175,6 +184,10 @@ tf-select apply
 
 ---
 ```
+## Feedback & Contributing 🤝
+
+Have an idea, found a bug, or want to contribute?  
+Open an [issue](https://github.com/Mayank12agrawal/tf-select/issues) or [pull request](https://github.com/Mayank12agrawal/tf-select/pulls) on the repository.
 
 
 
