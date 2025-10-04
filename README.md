@@ -20,13 +20,15 @@
 ## ⚙️ Installation
 
 ### Via Go
-
+```
 go install github.com/Mayank12agrawal/tf-select@latest
-
+```
 ### Manual Build
+```
 git clone https://github.com/Mayank12agrawal/tf-select.git
 cd tf-select
 go build -o tf-select
+```
 
 
 Make sure the binary is in your `$PATH` for easy execution.
@@ -44,6 +46,7 @@ Runs a Terraform or Terragrunt plan, parses the JSON output, and lists all resou
 tf-select plan
 
 **Sample Output:**
+```
 🔍 Running terraform plan...
 
 📋 Resources detected:
@@ -53,14 +56,17 @@ aws_s3_bucket.logs (delete)
 aws_iam_role.app_role (create)
 
 ✅ Mapping saved to .tf-select-cache.json
+```
 
 This command saves the index-to-resource mapping in `.tf-select-cache.json`:
+```
 {
 "1": "aws_instance.web_server",
 "2": "aws_security_group.web_sg",
 "3": "aws_s3_bucket.logs",
 "4": "aws_iam_role.app_role"
 }
+```
 
 
 ---
@@ -164,22 +170,7 @@ tf-select apply
 
 ---
 
-## 📜 License
 
-Released under the **MIT License** © 2025.
-
----
-
-## ✍️ Author
-
-**Your Name**  
-DevOps Engineer & Infrastructure Automation Enthusiast  
-✉️ you@example.com  
-🔗 [GitHub Profile](https://github.com/yourusername)
-
----
-
-*Save this file as* `README.md` *in your project root directory.*
 
 
 
