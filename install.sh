@@ -1,66 +1,34 @@
-#!/usr/bin/env bash
-set -euo pipefail
-
-# Version logic: positional argument > environment variable > 'latest'
-VERSION="${1:-${TFSELECT_VERSION:-latest}}"
-
+# Set variables
+VERSION="v1.0.0"
 REPO="Mayank12agrawal/tf-select"
 BINARY="tf-select"
 
-# Detect OS (lowercase) and normalize architecture names
+# Detect OS and architecture
 OS=$(uname | tr '[:upper:]' '[:lower:]')
 ARCH=$(uname -m)
 
-if [[ "$ARCH" == "x86_64" ]]; then
-  ARCH="amd64"
-elif [[ "$ARCH" == "arm64" || "$ARCH" == "aarch64" ]]; then
-  ARCH="arm64"
-else
-  echo "❌ Unsupported architecture: $ARCH"
-  exit 1
-fi
+# Map architecture
+if [[ "$ARCH" == "x86_64" ]]; then ARCH="amd64"; fi
+if [[ "$ARCH" == "arm64" || "$ARCH" == "aarch64" ]]; then ARCH="arm64"; fi
+if [[ "$ARCH" == "i386" ]]; then ARCH="386"; fi
 
-# Resolve latest version using GitHub API if needed
-if [[ "$VERSION" == "latest" ]]; then
-  VERSION=$(curl -s "https://api.github.com/repos/${REPO}/releases/latest" | \
-    grep -m1 '"tag_name":' | sed -E 's/.*"([^"]+)".*/\1/')
-  if [[ -z "$VERSION" ]]; then
-    echo "❌ Could not fetch latest version of $REPO"
-    exit 1
-  fi
-fi
+# Define tarball name
+TARBALL="${BINARY}_${VERSION}_${OS}_${ARCH}.tar.gz"
 
-TARBALL="${BINARY}_${VERSION#v}_${OS}_${ARCH}.tar.gz"
+# Download URL
 URL="https://github.com/${REPO}/releases/download/${VERSION}/${TARBALL}"
 
-echo "📥 Checking if asset $TARBALL exists at $URL..."
-
-if ! curl -fsI "$URL" > /dev/null; then
-  echo "❌ Release asset not found:"
-  echo "   $URL"
-  echo "❓ Please verify the release exists and asset is uploaded."
-  exit 1
-fi
-
-echo "⬇️ Downloading $TARBALL..."
+# Download, extract, install
 curl -fLo "$TARBALL" "$URL"
-
-echo "📦 Extracting binary $BINARY..."
 tar -xzf "$TARBALL"
-
 chmod +x "$BINARY"
 
-echo "🛠 Installing $BINARY to /usr/local/bin (requires sudo if needed)..."
+# Install to /usr/local/bin
 if mv "$BINARY" /usr/local/bin/ 2>/dev/null; then
-  echo "✅ Installed to /usr/local/bin without sudo."
+  echo "Installed without sudo."
 else
-  echo "🔐 Moving with sudo..."
   sudo mv "$BINARY" /usr/local/bin/
-  echo "✅ Installed to /usr/local/bin with sudo."
+  echo "Installed with sudo."
 fi
 
-rm -f "$TARBALL"
-
-echo "🎉 $BINARY $VERSION installed successfully!"
-echo "👉 Run '$BINARY --help' to get started."
-$BINARY --help
+rm "$TARBALL"
