@@ -33,6 +33,7 @@ go build -o tf-select
 Make sure the binary is in your `$PATH` for easy execution.
 
 Using the install script (recommended)
+
 Run this one-liner to download and install the correct binary automatically for your system:
 ```
 curl -fsSL https://raw.githubusercontent.com/Mayank12agrawal/tf-select/main/install.sh | bash
